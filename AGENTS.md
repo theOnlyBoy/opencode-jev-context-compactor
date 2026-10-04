@@ -101,6 +101,10 @@ node examples/bench.mjs --mock   # 6-topic bench, free
 
 - Bump `package.json` + `CHANGELOG.md`. `npm pack --dry-run` must show only `dist/` (+ docs + the vendored
   `LICENSE`). `prepublishOnly` runs build + test.
+- **Dist-tags:** npm cannot *remove* `latest` — only move it — and the **first** publish of a package sets
+  `latest` regardless of `--tag`. Therefore:
+  - **betas:** `npm publish --tag beta` (or `npm run release:beta`) — `latest` stays put;
+  - **first stable:** a plain `npm publish` — moves `latest` (e.g. `0.1.0`).
 - Repo: `github.com/theOnlyBoy/opencode-jev-context-compactor`. **Ask before publishing or pushing.**
 
 ## Related

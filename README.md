@@ -103,6 +103,14 @@ Precedence: plugin `options` (v2 config) → env → defaults.
 
 ## 🧩 Install
 
+Install the **beta** from npm:
+
+```sh
+npm i opencode-jev-context-compactor@beta
+```
+
+Then enable it in `opencode.jsonc`:
+
 ```jsonc title="opencode.jsonc"
 {
   "plugins": ["opencode-jev-context-compactor"]

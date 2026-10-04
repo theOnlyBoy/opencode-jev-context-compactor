@@ -60,6 +60,7 @@
     "demo": "node examples/run.mjs",
     "demo:live": "node examples/run.mjs --live",
     "bench": "node examples/bench.mjs",
+    "release:beta": "npm publish --tag beta",
     "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {
