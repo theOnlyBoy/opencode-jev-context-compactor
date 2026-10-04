@@ -1,0 +1,14 @@
+{
+  "topic": "data-sql",
+  "$comment": "Referenced target: events_v2 (asked about later). Stale candidates: the EXPLAIN plan and the table listing.",
+  "messages": [
+    { "id": "d1", "role": "user", "content": [ { "type": "text", "text": "Why is the events_v2 table slow?" } ], "metadata": {} },
+    { "id": "d2", "role": "assistant", "content": [ { "type": "tool-call", "id": "call_explain", "name": "bash", "input": { "command": "psql -c EXPLAIN (ANALYZE) SELECT * FROM events_v2 WHERE created_at > now() - interval 1 day" } } ], "metadata": {} },
+    { "id": "d3", "role": "tool", "content": [ { "type": "tool-result", "id": "call_explain", "name": "bash", "result": { "type": "text", "value": "Seq Scan on events_v2 (cost=0.00..482913.20 rows=12000000). Rows Removed by Filter: 11988000. Buffers read=491200. Execution Time: 8421.117 ms." }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "d4", "role": "assistant", "content": [ { "type": "tool-call", "id": "call_tables", "name": "bash", "input": { "command": "psql -c dt" } } ], "metadata": {} },
+    { "id": "d5", "role": "tool", "content": [ { "type": "tool-result", "id": "call_tables", "name": "bash", "result": { "type": "text", "value": "users, orders, events_v2, events, migrations, and 22 more tables in schema public." }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "d6", "role": "assistant", "content": [ { "type": "text", "text": "events_v2 is hitting a Seq Scan and filtering 11.9M rows for a 1-day window - it wants an index on created_at." } ], "metadata": {} },
+    { "id": "d7", "role": "user", "content": [ { "type": "text", "text": "Would an index on events_v2.created_at help?" } ], "metadata": {} },
+    { "id": "d8", "role": "assistant", "content": [ { "type": "text", "text": "Yes - an index on events_v2.created_at turns that Seq Scan into a range scan and removes the 11.9M-row filter." } ], "metadata": {} }
+  ]
+}

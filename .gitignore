@@ -1,0 +1,7 @@
+node_modules/
+dist/
+examples/out/
+*.log
+.idea/
+.tmp/
+.DS_Store

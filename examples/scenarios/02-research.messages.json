@@ -1,0 +1,14 @@
+{
+  "topic": "research",
+  "$comment": "Referenced target: https://example.org/b (asked about later). Stale candidate: the first long fetch once b is the live question.",
+  "messages": [
+    { "id": "r1", "role": "user", "content": [ { "type": "text", "text": "Summarise these two sources: https://example.org/a and https://example.org/b" } ], "metadata": {} },
+    { "id": "r2", "role": "assistant", "content": [ { "type": "tool-call", "id": "call_fetch_a", "name": "webfetch", "input": { "url": "https://example.org/a" } } ], "metadata": {} },
+    { "id": "r3", "role": "tool", "content": [ { "type": "tool-result", "id": "call_fetch_a", "name": "webfetch", "result": { "type": "text", "value": "# The state of local inference (2026). Three thousand words on quantisation and GGUF. Hobbyist adoption grew 40% year on year; enterprise lags." }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "r4", "role": "assistant", "content": [ { "type": "tool-call", "id": "call_fetch_b", "name": "webfetch", "input": { "url": "https://example.org/b" } } ], "metadata": {} },
+    { "id": "r5", "role": "tool", "content": [ { "type": "tool-result", "id": "call_fetch_b", "name": "webfetch", "result": { "type": "text", "value": "# Enterprise adoption of on-device models. A survey of 400 firms found adoption at 12%, citing procurement and audit, not capability. Governance is the bottleneck." }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "r6", "role": "assistant", "content": [ { "type": "text", "text": "Source A is about hobbyist momentum (quantisation, GGUFs). Source B is the enterprise study: 12% adoption, governance as the blocker." } ], "metadata": {} },
+    { "id": "r7", "role": "user", "content": [ { "type": "text", "text": "What exactly did https://example.org/b say the bottleneck was?" } ], "metadata": {} },
+    { "id": "r8", "role": "assistant", "content": [ { "type": "text", "text": "https://example.org/b names procurement and audit - governance, not capability - as the bottleneck." } ], "metadata": {} }
+  ]
+}

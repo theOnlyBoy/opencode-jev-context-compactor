@@ -1,0 +1,39 @@
+{
+  "$comment": "Synthetic booking-bot session (aiogram front, FastAPI+GraphQL+Postgres back). The `src/config.ts` read is provably referenced later (factsFirst pins it); the export error dump and first appointment lookup are stale candidates; the recent availability check should survive.",
+  "messages": [
+    { "id": "m00a", "role": "user", "content": [ { "type": "text", "text": "Before anything — what does src/config.ts set for the migration lock timeout?" } ], "metadata": {} },
+    { "id": "m00b", "role": "assistant", "content": [
+      { "type": "tool-call", "id": "call_read_1", "name": "read", "input": { "path": "src/config.ts" }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m00c", "role": "tool", "content": [
+      { "type": "tool-result", "id": "call_read_1", "name": "read", "result": { "type": "json", "value": { "content": "export const retry = { attempts: 3, backoffMs: 250, timeoutMs: 15000 };\nexport const migrations = { table: \"schema_migrations\", lockTimeoutMs: 30000 };\nexport const exportTask = { enabled: true, rangeColumn: \"range_start\" };" } }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m01", "role": "user", "content": [ { "type": "text", "text": "Earlier I tried the monthly export and it blew up. Can you check?" } ], "metadata": {} },
+    { "id": "m02", "role": "assistant", "content": [
+      { "type": "text", "text": "Let me run the export for tenant 'salon-sofia'." },
+      { "type": "tool-call", "id": "call_export_1", "name": "bash", "input": { "command": "violet-data-server/tasks.sh export appointments --tenant salon-sofia" }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m03", "role": "tool", "content": [
+      { "type": "tool-result", "id": "call_export_1", "name": "bash", "result": { "type": "error", "value": { "error": { "type": "graphql.error", "message": "Field 'exportRange' is not defined on Query.\n  at graphql/execute (violet-data-server/app/api/graphql.py:212)\n  at strawberry/schema/execute.py:88\n  ... 47 more frames ...\nSQLSTATE: 42703 column v.range_start does not exist\nHint: run `alembic upgrade head` before the export task. It touches nine tenant-scoped tables and a Redis cache; a partial migration leaves appointments without a range_start and the resolver raises before RLS is even applied." }, "content": [] } }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m04", "role": "assistant", "content": [ { "type": "text", "text": "That failed because the staging database is a migration behind (`range_start` missing). src/config.ts still points at the old migration table, so the deploy half-applied — fix the config, then redeploy." } ], "metadata": {} },
+    { "id": "m05", "role": "user", "content": [ { "type": "text", "text": "Fine. I need to reschedule my appointment with Maria to next Tuesday, and my phone number changed." } ], "metadata": {} },
+    { "id": "m06", "role": "assistant", "content": [
+      { "type": "text", "text": "Looking up your appointments." },
+      { "type": "tool-call", "id": "call_appts_1", "name": "graphql_query", "input": { "operation": "getAppointments", "variables": { "customerId": "cust_88213", "tenant": "salon-sofia" } }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m07", "role": "tool", "content": [
+      { "type": "tool-result", "id": "call_appts_1", "name": "graphql_query", "result": { "type": "json", "value": { "data": { "appointments": [ { "id": "apt_991", "serviceId": "svc_44", "service": "Balayage", "staffId": "staff_maria", "staffName": "Maria", "start": "2026-10-09T10:00:00+03:00", "end": "2026-10-09T12:00:00+03:00", "status": "confirmed", "priceBgn": 180, "depositPaid": true, "notes": "client prefers cold-toned blonde", "createdAt": "2026-09-01T08:12:00Z", "visitCount": 7 }, { "id": "apt_812", "serviceId": "svc_12", "service": "Trim", "staffId": "staff_maria", "staffName": "Maria", "start": "2026-08-14T16:30:00+03:00", "end": "2026-08-14T17:00:00+03:00", "status": "completed", "priceBgn": 60, "depositPaid": true, "notes": "", "createdAt": "2026-08-02T11:03:00Z", "visitCount": 6 }, { "id": "apt_700", "serviceId": "svc_44", "service": "Balayage", "staffId": "staff_maria", "staffName": "Maria", "start": "2026-06-20T11:00:00+03:00", "end": "2026-06-20T13:00:00+03:00", "status": "completed", "priceBgn": 170, "depositPaid": true, "notes": "", "createdAt": "2026-06-01T09:45:00Z", "visitCount": 5 } ] } } }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m08", "role": "assistant", "content": [ { "type": "text", "text": "Found it — Balayage with Maria, Fri 9 Oct 10:00, deposit already paid. What day and time would you like instead?" } ], "metadata": {} },
+    { "id": "m09", "role": "user", "content": [ { "type": "text", "text": "Tuesday next week, 15:00 if that's free." } ], "metadata": {} },
+    { "id": "m10", "role": "assistant", "content": [
+      { "type": "tool-call", "id": "call_avail_1", "name": "graphql_query", "input": { "operation": "checkAvailability", "variables": { "staffId": "staff_maria", "serviceId": "svc_44", "date": "2026-10-13", "tenant": "salon-sofia" } }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m11", "role": "tool", "content": [
+      { "type": "tool-result", "id": "call_avail_1", "name": "graphql_query", "result": { "type": "json", "value": { "data": { "slots": [ { "start": "2026-10-13T09:00:00+03:00", "staffId": "staff_maria" }, { "start": "2026-10-13T15:00:00+03:00", "staffId": "staff_maria" }, { "start": "2026-10-13T16:30:00+03:00", "staffId": "staff_maria" } ] } } }, "providerExecuted": false }
+    ], "metadata": {} },
+    { "id": "m12", "role": "assistant", "content": [ { "type": "text", "text": "Tuesday 13 Oct, 15:00 is free with Maria." } ], "metadata": {} },
+    { "id": "m13", "role": "user", "content": [ { "type": "text", "text": "Perfect — confirm it, and please update my phone to +359 88 123 4567." } ], "metadata": {} }
+  ]
+}

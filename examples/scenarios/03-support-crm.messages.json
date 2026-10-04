@@ -1,0 +1,14 @@
+{
+  "topic": "support-crm",
+  "$comment": "Referenced target: ORD-4412 (asked about later). Stale candidate: an old customer-note dump.",
+  "messages": [
+    { "id": "s1", "role": "user", "content": [ { "type": "text", "text": "Customer says order ORD-4412 has not arrived. Pull the order." } ], "metadata": {} },
+    { "id": "s2", "role": "assistant", "content": [ { "type": "tool-call", "id": "call_order", "name": "graphql_query", "input": { "operation": "getOrder", "variables": { "orderId": "ORD-4412" } } } ], "metadata": {} },
+    { "id": "s3", "role": "tool", "content": [ { "type": "tool-result", "id": "call_order", "name": "graphql_query", "result": { "type": "text", "value": "order ORD-4412 status in_transit carrier SpeedyPost tracking SP99887766 address 12 Rose Lane, Bristol BS1 4TT items SKU-88 x2 placedAt 2026-09-28." }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "s4", "role": "assistant", "content": [ { "type": "text", "text": "ORD-4412 is in transit with SpeedyPost, tracking SP99887766, going to 12 Rose Lane, Bristol." } ], "metadata": {} },
+    { "id": "s5", "role": "assistant", "content": [ { "type": "tool-call", "id": "call_notes", "name": "graphql_query", "input": { "operation": "getCustomerNotes", "variables": { "customerId": "c_88" } } } ], "metadata": {} },
+    { "id": "s6", "role": "tool", "content": [ { "type": "tool-result", "id": "call_notes", "name": "graphql_query", "result": { "type": "text", "value": "2025-11-02 asked about refunds, resolved. 2026-01-14 address changed. 2026-03-03 delivery delayed, compensated. 2026-05-20 returns policy. 40 more low-signal notes, none about the current order." }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "s7", "role": "user", "content": [ { "type": "text", "text": "Was ORD-4412 shipped to the right address?" } ], "metadata": {} },
+    { "id": "s8", "role": "assistant", "content": [ { "type": "text", "text": "Yes - ORD-4412 went to 12 Rose Lane, Bristol, which matches the customer record." } ], "metadata": {} }
+  ]
+}

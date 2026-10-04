@@ -1,0 +1,14 @@
+{
+  "topic": "creative",
+  "$comment": "Referenced target: docs/style-guide.md (asked about later). Prose-heavy, few exact targets - the case where judgement is hardest.",
+  "messages": [
+    { "id": "w1", "role": "user", "content": [ { "type": "text", "text": "Help me write the release notes; follow docs/style-guide.md." } ], "metadata": {} },
+    { "id": "w2", "role": "assistant", "content": [ { "type": "tool-call", "id": "call_style", "name": "read", "input": { "path": "docs/style-guide.md" }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "w3", "role": "tool", "content": [ { "type": "tool-result", "id": "call_style", "name": "read", "result": { "type": "json", "value": { "content": "# Style guide. Use the Oxford comma. Prefer the active voice. Address the reader as you. Keep sentences under twenty-five words. Never start a sentence with Simply." } }, "providerExecuted": false } ], "metadata": {} },
+    { "id": "w4", "role": "assistant", "content": [ { "type": "text", "text": "Draft: v2.4 makes compaction faster. You can now run the compactor on a schedule, and the new log line shows what it dropped. It is quieter and, we think, kinder to your token budget." } ], "metadata": {} },
+    { "id": "w5", "role": "user", "content": [ { "type": "text", "text": "Tighten the intro, keep it friendly." } ], "metadata": {} },
+    { "id": "w6", "role": "assistant", "content": [ { "type": "text", "text": "v2.4 speeds up compaction. Run it on a schedule; the new log line shows what it dropped. Quieter, and kinder to your token budget." } ], "metadata": {} },
+    { "id": "w7", "role": "user", "content": [ { "type": "text", "text": "Does docs/style-guide.md want the Oxford comma?" } ], "metadata": {} },
+    { "id": "w8", "role": "assistant", "content": [ { "type": "text", "text": "Yes - docs/style-guide.md says to use the Oxford comma." } ], "metadata": {} }
+  ]
+}

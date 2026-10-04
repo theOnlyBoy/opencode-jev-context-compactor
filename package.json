@@ -1,0 +1,77 @@
+{
+  "name": "opencode-jev-context-compactor",
+  "version": "0.1.0-beta.1",
+  "description": "OpenCode v2 plugin — Jev-scored context compaction: drop provably-stale tool calls, truncate the rest, keep everything else verbatim. No summariser.",
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "plugin",
+    "ai",
+    "agent",
+    "jev",
+    "typesafe",
+    "compaction",
+    "context"
+  ],
+  "homepage": "https://github.com/theOnlyBoy/opencode-jev-context-compactor",
+  "bugs": {
+    "url": "https://github.com/theOnlyBoy/opencode-jev-context-compactor/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Nik S. <nikoladious@proton.me>",
+    "url": "https://github.com/theOnlyBoy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theOnlyBoy/opencode-jev-context-compactor.git"
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "THIRD_PARTY_NOTICES.md",
+    "vendor/fast-jev-compaction/LICENSE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tui": {
+      "import": "./dist/tui.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "test": "node test/policy.test.mjs && node test/mapper.test.mjs && node test/facts.test.mjs && node test/cache.test.mjs && node test/prose.test.mjs && node test/manual.test.mjs && node test/config.test.mjs",
+    "demo": "node examples/run.mjs",
+    "demo:live": "node examples/run.mjs --live",
+    "bench": "node examples/bench.mjs",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.5",
+    "@opentui/solid": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">= 22",
+    "opencode2": ">=2.0.21"
+  }
+}

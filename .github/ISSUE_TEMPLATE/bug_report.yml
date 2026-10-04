@@ -1,0 +1,76 @@
+name: Bug report
+description: Something broke, or the plugin did the wrong thing.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Beta software — thanks for testing. Please do not paste secrets (e.g. `TYPESAFE_API_KEY`) or
+        private conversation content.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you see instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      placeholder: 0.1.0-beta.1
+    validations:
+      required: true
+
+  - type: input
+    id: opencode-version
+    attributes:
+      label: OpenCode v2 version
+      placeholder: 2.0.21
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node version
+      placeholder: ">= 22"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did it happen?
+      options:
+        - Request pruning (context hook)
+        - Compaction checkpoint (compaction hook)
+        - TUI /compress command
+        - compress tool (model-callable)
+        - Install / load
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (redacted)
+      description: >
+        Server: $TMPDIR/opencode-jev-context-compactor.log · TUI: …-tui.log. Strip secrets first.
+      render: text
+    validations:
+      required: false
