@@ -1,6 +1,6 @@
 {
   "name": "opencode-jev-context-compactor",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "description": "OpenCode v2 plugin — Jev-scored context compaction: drop provably-stale tool calls, truncate the rest, keep everything else verbatim. No summariser.",
   "keywords": [
     "opencode",
@@ -27,10 +27,11 @@
     "url": "git+https://github.com/theOnlyBoy/opencode-jev-context-compactor.git"
   },
   "files": [
+    "index.js",
     "dist",
     "CHANGELOG.md",
     "THIRD_PARTY_NOTICES.md",
-    "vendor/fast-jev-compaction/LICENSE"
+    "src/vendor/fast-jev-compaction/LICENSE"
   ],
   "type": "module",
   "sideEffects": false,

@@ -21,13 +21,14 @@ Triggers: a model-callable **`compress` tool** (`ctx.tool.transform`) and the TU
 
 | file | role |
 |---|---|
-| `index.ts` | adapter/setup: config, logging, stats records; the `context` hook (prune → prose → visible stats + manual compaction trigger); the `compaction` hook; registers the `compress` tool |
-| `mapper.ts` | v2 `Message[]` ⇄ engine shape: `toLibraryMessages`, `applyDecisionsToV2`, `renderSummary` |
-| `policy.ts` | deletion policy: only deterministic evidence may delete; a model answer may only truncate |
-| `facts.ts` | `factsFirst` reference detection + `wrapAsker` |
-| `prose.ts` | `proseDrops` + `positionBar` — pure, unit-tested |
-| `tui.tsx` | sidebar list, `/compress` command, toasts (entry via package `./tui`) |
-| `vendor/fast-jev-compaction/` | the engine (byte-identical, MIT) |
+| `index.js` | root entry — what `file://<dir>` loads on v2; re-exports `dist/index.js` |
+| `src/index.ts` | adapter/setup: config, logging, stats records; the `context` hook (prune → prose → visible stats + manual compaction trigger); the `compaction` hook; registers the `compress` tool |
+| `src/mapper.ts` | v2 `Message[]` ⇄ engine shape: `toLibraryMessages`, `applyDecisionsToV2`, `renderSummary` |
+| `src/policy.ts` | deletion policy: only deterministic evidence may delete; a model answer may only truncate |
+| `src/facts.ts` | `factsFirst` reference detection + `wrapAsker` |
+| `src/prose.ts` | `proseDrops` + `positionBar` — pure, unit-tested |
+| `src/tui.tsx` | sidebar list, `/compress` command, toasts (entry via package `./tui`) |
+| `src/vendor/fast-jev-compaction/` | the engine (byte-identical, MIT) |
 | `test/` | `policy · mapper · facts · cache · prose · manual · config` suites (`npm test`) |
 | `examples/` | `run.mjs`, `bench.mjs`, 6 synthetic `scenarios/` |
 
@@ -48,7 +49,7 @@ Triggers: a model-callable **`compress` tool** (`ctx.tool.transform`) and the TU
 4. **Fail open.** Missing key, API error, malformed answer, sub-threshold reduction → leave v2 untouched.
    Never throw into the host.
 5. **No secrets** in code, logs, docs, or chat. `TYPESAFE_API_KEY` is read from the environment only.
-6. **Don't edit the vendored engine**; changes belong in our adapter. `vendor/` stays byte-identical.
+6. **Don't edit the vendored engine**; changes belong in our adapter. `src/vendor/` stays byte-identical.
 7. **Manual `/compress` must actually cut.** It uses `judgement` (no reference pinning) and
    `preserveRecentMessages: 0`; auto keeps the defaults.
 

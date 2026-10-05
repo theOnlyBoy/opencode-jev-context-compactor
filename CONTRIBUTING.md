@@ -16,7 +16,7 @@ and support is **best-effort with no SLA**.
 - **Fail open.** Any error, missing key, or sub-threshold result leaves OpenCode untouched; never throw
   into the host.
 - **No secrets** in code, logs, or issues. `TYPESAFE_API_KEY` is read from the environment only.
-- **Don't edit `vendor/`.** The vendored engine stays byte-identical; changes belong in the adapter.
+- **Don't edit `src/vendor/`.** The vendored engine stays byte-identical; changes belong in the adapter.
 
 `AGENTS.md` has the file map and the proven v2 API notes; `README.md` is the user story.
 

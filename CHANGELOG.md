@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.1.0-beta.2] - 2026-10-05
+
+- Root `index.js` entry (points at `dist/index.js`); source moved under `src/`.
+
 ## [0.1.0-beta.1] - 2026-10-04
 
 **Beta.** Jev-scored context compression for OpenCode v2. Behaviour and configuration may change
